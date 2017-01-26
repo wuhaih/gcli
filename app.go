@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"os/exec"
+	"bufio"
+	"os"
+	"log"
 )
 
 /**
@@ -12,19 +15,32 @@ import (
 * @email 18702515157@163.com  
 **/
 func main() {
-	//scanner := bufio.NewScanner(os.Stdin)
-	//log.Println("the author name of the github.com")
-	//scanner.Scan()
-	//fmt.Println(scanner.Text())
-	//log.Println("the prodject name of the github.com")
-	//scanner.Scan()
-	//fmt.Println(scanner.Text())
-
-	//cmd := exec.Command("git", " clone git@github.com:zhangweilun/common.git")
-	cmd := exec.Command("git", "init")
+	scanner := bufio.NewScanner(os.Stdin)
+	log.Println("the author name of the github.com")
+	scanner.Scan()
+	author := scanner.Text()
+	log.Println("the prodject name of the github.com")
+	scanner.Scan()
+	project := scanner.Text()
+	location, _ := os.Getwd()
+	work_space := location+"/src/github.com/"+author
+	err := os.MkdirAll(work_space, os.ModePerm)
+	if err != nil {
+		log.Fatal("创建目录出错~！！！！！")
+	}
+	project_url:= "git@github.com:"+author+"/"+project+".git"
+	cmd := exec.Command("git", "clone",project_url)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalln(err)
 	}
 	fmt.Println(string(out))
+	mv := exec.Command("mv", location+"/common", work_space)
+	mv_out, err := mv.CombinedOutput()
+	if err != nil {
+		log.Fatalln(err)
+	}else {
+		fmt.Println(string(mv_out))
+	}
+
 }
