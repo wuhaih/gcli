@@ -30,7 +30,7 @@ func main() {
 	if path == ""{
 		work_space = location+"/src/github.com/"+author
 	}else {
-		work_space = path
+		work_space = path + "/src/github.com/" +author
 	}
 	err := os.MkdirAll(work_space, os.ModePerm)
 	if err != nil {
