@@ -1,18 +1,18 @@
 package main
 
 import (
-	"fmt"
-	"os/exec"
 	"bufio"
-	"os"
+	"fmt"
 	"log"
+	"os"
+	"os/exec"
 )
 
 /**
-* 
+*
 * @author willian
 * @created 2017-01-26 14:07
-* @email 18702515157@163.com  
+* @email 18702515157@163.com
 **/
 func main() {
 	var work_space string
@@ -27,27 +27,28 @@ func main() {
 	log.Println("the project path:(it is your current directory defaultly,press enter means defaultly)")
 	scanner.Scan()
 	path := scanner.Text()
-	if path == ""{
-		work_space = location+"/src/github.com/"+author
-	}else {
-		work_space = path + "/src/github.com/" +author
+	if path == "" {
+		work_space = location + "/src/github.com/" + author
+	} else {
+		work_space = path + "/src/github.com/" + author
 	}
 	err := os.MkdirAll(work_space, os.ModePerm)
 	if err != nil {
 		log.Fatal("创建目录出错~！！！！！")
 	}
-	project_url:= "git@github.com:"+author+"/"+project+".git"
-	cmd := exec.Command("git", "clone",project_url)
+	project_url := "git@github.com:" + author + "/" + project + ".git"
+	cmd := exec.Command("git", "clone", project_url)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatalln(err)
 	}
 	fmt.Println(string(out))
-	mv := exec.Command("mv", location+"/common", work_space)
+	mv := exec.Command("mv", location+"/"+project, work_space)
+	fmt.Println("生成的目录",location+"/"+project)
 	mv_out, err := mv.CombinedOutput()
 	if err != nil {
 		log.Fatalln(err)
-	}else {
+	} else {
 		fmt.Println(string(mv_out))
 	}
 
