@@ -15,6 +15,8 @@ import (
 * @email 18702515157@163.com  
 **/
 func main() {
+	var work_space string
+	location, _ := os.Getwd()
 	scanner := bufio.NewScanner(os.Stdin)
 	log.Println("the author name of the github.com")
 	scanner.Scan()
@@ -22,8 +24,14 @@ func main() {
 	log.Println("the prodject name of the github.com")
 	scanner.Scan()
 	project := scanner.Text()
-	location, _ := os.Getwd()
-	work_space := location+"/src/github.com/"+author
+	log.Println("the project path:(it is your current directory defaultly,press enter means defaultly)")
+	scanner.Scan()
+	path := scanner.Text()
+	if path == ""{
+		work_space = location+"/src/github.com/"+author
+	}else {
+		work_space = path
+	}
 	err := os.MkdirAll(work_space, os.ModePerm)
 	if err != nil {
 		log.Fatal("创建目录出错~！！！！！")
